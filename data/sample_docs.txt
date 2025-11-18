@@ -1,0 +1,20 @@
+MACHINE LEARNING - Sample Documentation
+
+Machine Learning (ML) is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.
+
+Types of Machine Learning:
+1. Supervised Learning - Learning with labelled data
+2. Unsupervised Learning - Finding patterns in unlabelled data  
+3. Reinforcement Learning - Learning through interaction with environment
+
+Deep Learning is a subset of machine learning based on artificial neural networks. It has been successfully applied to various fields including computer vision, speech recognition, natural language processing, and social network filtering.
+
+Natural Language Processing (NLP) enables computers to understand, interpret and generate human language. Applications include chatbots, translation systems, sentiment analysis, and text summarisation.
+
+Computer Vision helps computers gain high-level understanding from digital images or videos. Applications include image classification, object detection, facial recognition, and autonomous vehicles.
+
+RAG (Retrieval-Augmented Generation) combines information retrieval with text generation. It retrieves relevant documents from a knowledge base and uses them to generate more accurate and contextual responses.
+
+Embeddings are dense vector representations of text that capture semantic meaning. They enable similarity search and are fundamental to modern NLP systems.
+
+Vector databases store and query embeddings efficiently using similarity measures like cosine similarity. They are essential for building retrieval systems and semantic search applications.
