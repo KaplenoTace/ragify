@@ -1,0 +1,18 @@
+# RAGIFY Configuration File
+
+# Data settings
+data_folder: data  # Where to find documents
+
+# Chunking settings
+chunk_size: 300  # Characters per chunk
+chunk_overlap: 50  # Overlap between chunks for context
+
+# Embedding model
+embedding_model: all-MiniLM-L6-v2  # Fast and accurate
+
+# Vector database settings
+vector_db_path: ./vector_db  # Where to store the database
+collection_name: ragify_collection  # Collection name in ChromaDB
+
+# Query settings
+top_k: 3  # Number of results to return per query
