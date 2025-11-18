@@ -1,0 +1,98 @@
+RAGIFY - Local Retrieval-Augmented Generation System
+====================================================
+
+PROJECT OVERVIEW
+----------------
+RAGIFY is a complete, beginner-friendly RAG (Retrieval-Augmented Generation) system 
+built entirely locally. It demonstrates how to build a semantic search system using 
+embeddings, vector databases, and modern Python frameworks.
+
+KEY FEATURES
+------------
+✓ Document Loading & Preprocessing
+✓ Intelligent Text Chunking (with overlap)
+✓ Embedding Generation (Sentence Transformers)
+✓ Vector Database Storage (ChromaDB)
+✓ Semantic Query System
+✓ Two Web Frontends (Gradio & Streamlit)
+✓ 100% Local Execution (No API calls)
+
+TECHNOLOGY STACK
+----------------
+- Embeddings: sentence-transformers (all-MiniLM-L6-v2)
+- Vector DB: ChromaDB
+- Frontends: Gradio 4.x & Streamlit 1.x
+- Language: Python 3.8+
+
+PROJECT STRUCTURE
+-----------------
+ragify/
+├── src/
+│   ├── __init__.py              # Package initialization
+│   ├── document_loader.py       # Document loading module
+│   ├── chunker.py               # Text chunking with overlap
+│   ├── embeddings.py            # Embedding generation
+│   └── vector_db.py             # ChromaDB wrapper
+├── data/
+│   └── sample_docs.txt          # Sample documents for testing
+├── 1_index_documents.py         # Script to index documents
+├── 2_query_system.py            # CLI query interface
+├── 3_gradio_frontend.py         # Gradio web interface
+├── streamlit_app.py             # Streamlit web interface
+├── config.yaml                  # Configuration settings
+├── requirements.txt             # Python dependencies
+└── README.md                    # Full documentation
+
+USAGE WORKFLOW
+--------------
+1. Install dependencies: pip install -r requirements.txt
+2. Index documents: python 1_index_documents.py
+3. Query via CLI: python 2_query_system.py
+4. OR use Gradio: python 3_gradio_frontend.py
+5. OR use Streamlit: streamlit run streamlit_app.py
+
+WHAT YOU'LL LEARN
+-----------------
+- How to preprocess text for semantic search
+- Generating embeddings with Sentence Transformers
+- Working with vector databases (ChromaDB)
+- Building query systems for RAG applications
+- Creating web frontends with Gradio & Streamlit
+- Configuring and managing RAG pipelines
+
+USE CASES
+---------
+✓ Internal knowledge base search
+✓ Document Q&A systems
+✓ Semantic search for research papers
+✓ Customer support document retrieval
+✓ Educational content discovery
+
+PERFORMANCE NOTES
+-----------------
+- Model: all-MiniLM-L6-v2 (lightweight, fast)
+- Embedding size: 384 dimensions
+- Average query time: <500ms for 1000 chunks
+- Works on CPU (no GPU required)
+
+CUSTOMIZATION
+-------------
+- Swap embedding models in config.yaml
+- Adjust chunk size and overlap for your documents
+- Modify top_k results in query settings
+- Extend frontends with additional features
+
+NEXT STEPS
+----------
+1. Add LLM integration for answer generation
+2. Implement multi-modal search (images, PDFs)
+3. Add authentication for web interfaces
+4. Deploy with Docker
+5. Scale with production vector databases
+
+LICENSE & CREDITS
+-----------------
+This is an educational project demonstrating RAG fundamentals.
+Feel free to use, modify, and learn from this codebase!
+
+Built with ❤️ for the AI community.
