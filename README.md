@@ -1,293 +1,105 @@
-# RAGIFY - Local Retrieval-Augmented Generation System
+# ragify
 
-A complete, beginner-friendly RAG system built entirely locally with **Embeddings**, **Chunking**, **Vector Database**, and **Beautiful Web Frontends** (Gradio & Streamlit).
+A local RAG (Retrieval-Augmented Generation) system I built to understand how embeddings, chunking, and vector databases actually work together. Runs entirely offline — no API keys, no cloud dependencies.
 
----
+I made three different ways to interact with it: a Gradio UI, a Streamlit dashboard, and a plain CLI. Started with the CLI for testing, then built the frontends on top.
 
-## What's Included
+## What it does
 
-This project covers all RAG fundamentals you learned:
-- **Embeddings**: Text → semantic vectors using `sentence-transformers`
-- **Chunking**: Smart text splitting with overlap preservation
-- **Vector Database**: Local ChromaDB for fast similarity search
-- **RAG Pipeline**: Document indexing + intelligent retrieval
-- **Web Frontends**: Gradio (simple), Streamlit (professional), CLI
-- **Sample Data**: Machine learning documentation included
+- Loads `.txt` files from a `data/` folder and splits them into chunks with overlap
+- Converts those chunks into 384-dimensional vectors using `all-MiniLM-L6-v2`
+- Stores everything in a local ChromaDB instance
+- At query time, embeds your question and finds the most semantically similar chunks
 
----
-
-## Project Structure
+## Project structure
 
 ```
 ragify/
-├── requirements.txt          # Dependencies (includes Gradio & Streamlit)
-├── config.yaml              # All settings in one place
-├── README.md                # This guide
-├── PROJECT_SUMMARY.txt      # Project overview
-│
-├── MAIN SCRIPTS
-├── 1_index_documents.py     # Step 1: Index your documents
-├── 2_query_system.py        # Step 2: CLI query interface
-├── 3_gradio_frontend.py     # Step 3a: Gradio web UI (recommended)
-├── streamlit_app.py         # Step 3b: Streamlit dashboard
-│
+├── requirements.txt
+├── config.yaml
+├── 1_index_documents.py    # step 1: index your docs
+├── 2_query_system.py       # step 2: query via CLI
+├── 3_gradio_frontend.py    # step 3a: Gradio UI
+├── streamlit_app.py        # step 3b: Streamlit dashboard
 ├── data/
-│   └── sample_docs.txt      # Sample ML documentation
-│
+│   └── sample_docs.txt
 └── src/
-    ├── __init__.py
-    ├── document_loader.py   # Load text documents
-    ├── chunker.py          # Split text intelligently
-    ├── embeddings.py       # Generate & manage embeddings
-    └── vector_db.py        # Vector database operations
+    ├── document_loader.py
+    ├── chunker.py
+    ├── embeddings.py
+    └── vector_db.py
 ```
 
----
+## Setup
 
-## Quick Start (5 Minutes)
-
-### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Index Your Documents
+## Usage
+
+**Index your documents first:**
 ```bash
 python 1_index_documents.py
 ```
-This processes all `.txt` files in the `data/` folder, creates embeddings, and stores them locally.
+This reads everything in `data/`, chunks it, generates embeddings, and saves them to ChromaDB locally.
 
-### 3. Choose Your Interface
+**Then pick an interface:**
 
-**Option A: Gradio (Recommended for Beginners)**
+Gradio (simplest):
 ```bash
 python 3_gradio_frontend.py
+# http://localhost:7860
 ```
-Then visit `http://localhost:7860`
-- Clean, simple UI
-- Adjustable results slider
-- Example questions included
-- Similarity scores displayed
 
-**Option B: Streamlit (Professional Dashboard)**
+Streamlit:
 ```bash
 streamlit run streamlit_app.py
+# http://localhost:8501
 ```
-Then visit `http://localhost:8501`
-- Professional dashboard
-- Sidebar settings
-- Quick example buttons
-- Database statistics
 
-**Option C: Command Line (Testing)**
+CLI:
 ```bash
 python 2_query_system.py
 ```
-- Interactive terminal interface
-- Great for debugging
-- No browser needed
 
----
+## Configuration
 
-## How It Works
-
-### Phase 1: Indexing (Run Once)
-```
-Documents → Split into Chunks → Generate Embeddings → Store in Vector DB
-```
-
-### Phase 2: Querying (Run Anytime)
-```
-Your Question → Embed It → Find Similar Chunks → Return Results with Scores
-```
-
----
-
-## Understanding Components
-
-### 1. `document_loader.py`
-Reads all `.txt` files from the `data/` folder and returns them with metadata.
-
-### 2. `chunker.py`
-Splits documents into **300-character chunks** with **50-character overlap** (configurable).
-
-### 3. `embeddings.py`
-Uses **all-MiniLM-L6-v2** transformer to convert text into **384-dimensional vectors**.
-
-### 4. `vector_db.py`
-Uses **ChromaDB** to store embeddings and find similar chunks via cosine similarity.
-
-### 5. Frontends
-- **3_gradio_frontend.py**: Auto-generated beautiful web UI
-- **streamlit_app.py**: Customisable professional dashboard
-- **2_query_system.py**: CLI for terminal users
-
----
-
-## Configuration (`config.yaml`)
+Everything lives in `config.yaml`:
 
 ```yaml
-data_folder: data              # Where to find documents
-chunk_size: 300               # Characters per chunk
-chunk_overlap: 50             # Overlap between chunks
-embedding_model: all-MiniLM-L6-v2  # Fast, good model
-vector_db_path: ./vector_db   # Where to store database
-collection_name: ragify_collection
-top_k: 3                      # Number of results per query
+data_folder: data
+chunk_size: 300
+chunk_overlap: 50
+embedding_model: all-MiniLM-L6-v2
+vector_db_path: ./vector_db
+top_k: 3
 ```
 
-Adjust these based on your needs:
-- Smaller `chunk_size` → more precise but more chunks
-- Larger `chunk_size` → faster but less precise
-- Higher `top_k` → more results per query
-
----
-
-## Tips & Tricks
-
-1. **Add More Documents**: Just put `.txt` files in `data/` and re-run indexing
-2. **Adjust Results**: Change `top_k` in `config.yaml`
-3. **Better Accuracy**: Try different embedding models (BGE, E5)
-4. **Test Components**: Each `.py` file in `src/` can run standalone
-5. **Performance**: First embedding download takes ~80MB, after that, it's instant
-
----
+Smaller `chunk_size` gives more precise results but more chunks to store. Tweak `top_k` to control how many results come back per query.
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|----------|
-| `No module named 'gradio'` | Run `pip install -r requirements.txt` |
-| No database found | Run `python 1_index_documents.py` first |
-| Port already in use | Edit port number in frontend file (7860 → 7861) |
-| No results found | Check documents are in `data/`, try different questions |
-| Slow first run | Normal! Downloading embedding model (~80MB), happens once |
+| Problem | Fix |
+|---------|-----|
+| `No module named 'gradio'` | `pip install -r requirements.txt` |
+| No DB found | Run the indexing script first |
+| Port in use | Change the port number in the frontend file |
+| Slow first run | Normal — downloading the embedding model (~80MB) once |
 
----
+## What I learned building this
 
-## Comparing Frontends
+- How chunking strategy affects retrieval quality (overlap matters a lot)
+- ChromaDB's cosine similarity under the hood
+- Why sentence-transformers are so good for semantic search
+- The difference between retrieval and generation in RAG
 
-| Feature | CLI | Gradio | Streamlit |
-|---------|-----|--------|------------|
-| Setup Time | 1 min | 2 min | 3 min |
-| Learning Curve | ✓ | ✓✓ | ✓✓✓ |
-| UI Quality | None | Good | Excellent |
-| **Best For** | Testing | Quick Start | Production |
+## Next steps
 
-**Recommendation**: Start with Gradio, then try Streamlit for more features.
+- Add PDF support with PyPDF2
+- Hook up Ollama for actual answer generation instead of just retrieval
+- Try hybrid search (BM25 + semantic)
 
----
+## License
 
-## Testing Individual Components
-
-```bash
-# Test document loader
-python src/document_loader.py
-
-# Test chunker
-python src/chunker.py
-
-# Test embeddings
-python src/embeddings.py
-
-# Test vector database
-python src/vector_db.py
-```
-
----
-
-## Next Steps
-
-After mastering the basics:
-1. Add PDF support using `PyPDF2`
-2. Integrate Ollama for answer generation
-3. Deploy to cloud (Hugging Face, Railway, etc.)
-4. Add user authentication
-5. Implement hybrid search (keyword + semantic)
-
----
-
-## What You Learned
-
-✓ **Embeddings**: How text becomes vectors with semantic meaning  
-✓ **RAG**: How retrieval enhances generation quality  
-✓ **Chunking**: How to split documents for optimal search  
-✓ **Vector DB**: How to store and search embeddings efficiently  
-✓ **Web UI**: How to make AI accessible with simple interfaces
-
----
-
-## Sample Data
-
-Included `sample_docs.txt` contains:
-- Machine Learning fundamentals
-- Python for ML
-- Deep Learning & Neural Networks
-- Natural Language Processing
-- Computer Vision
-- Data Science workflow
-- Evaluation metrics
-
-Perfect for testing and learning!
-
----
-
-## Key Features
-
-- Works entirely **offline** (no API keys needed)
-- Beautiful web interfaces (Gradio & Streamlit)
-- Persistent local database
-- Fast similarity search
-- Configurable chunking & embeddings
-- Sample data included
-- Well-documented code
-- Ready for GitHub
-
----
-
-## Licence
-
-MIT Licence - Feel free to use, modify, and share!
-
----
-
-## Contributing
-
-This is a learning project. Feel free to:
-- Experiment with different settings
-- Try different models
-- Add your own features
-- Share your improvements
-
----
-
-## Support
-
-- Check code comments for explanations
-- See `FRONTEND_GUIDE.md` for detailed UI usage
-- See `PROJECT_SUMMARY.txt` for overview
-- Each `.py` file includes docstrings
-
----
-
-## Ready to Go!
-
-Your RAGIFY system is complete, tested, and ready:
-- ✅ All dependencies configured
-- ✅ Sample data included
-- ✅ Three interface options
-- ✅ Full documentation
-- ✅ GitHub-ready
-
-**Start with:**
-```bash
-python 1_index_documents.py
-python 3_gradio_frontend.py
-```
-
-**Happy Learning!**
-
----
-
-*Made with ❤️ for data scientists learning RAG systems.*  
-*Built entirely locally • No API dependencies • Perfect for beginners*
+MIT
